@@ -24,7 +24,14 @@ function getAllCoinGeckoIds() {
   }
 }
 
+const SPECIAL_LIST = {
+  "uni": "uniswap"
+}
+
 function findCoinGeckoId(inputSymbol) {
+  if (SPECIAL_LIST[inputSymbol.toLowerCase()]) {
+    return SPECIAL_LIST[inputSymbol.toLowerCase()];
+  }
   const allIds = getAllCoinGeckoIds();
   const find = allIds.find(({ symbol }) => symbol.toLowerCase() === inputSymbol.toLowerCase())
   if (find) {
