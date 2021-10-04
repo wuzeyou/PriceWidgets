@@ -1,8 +1,10 @@
 const colors = require("../constants/colors");
 const fonts = require("../constants/fonts");
+const { displayPrice, getLocalLogoUrl } = require("../utils");
 
 function listItem(market) {
   if (market) {
+    const urlSuffix = market.id.toLowerCase() + '-' + market.name.replaceAll(/\s+/g, '-').toLowerCase();
     return {
       type: "hstack",
       props: {
@@ -12,14 +14,14 @@ function listItem(market) {
           maxWidth: Infinity,
           maxHeight: Infinity
         },
-        link: "https://www.coingecko.com/en/coins/" + market.id,
+        link: "https://nomics.com/assets/" + urlSuffix,
       },
       views: [{
           type: "image",
           props: {
             resizable: true,
             scaledToFill: true,
-            uri: market.image,
+            uri: /\.(jpg|png)$/.test(market.logo_url) ? market.logo_url : getLocalLogoUrl(market.symbol, market.logo_url),
             frame: {
               width: 28,
               height: 28
@@ -68,7 +70,7 @@ function listItem(market) {
           views: [{
               type: "text",
               props: {
-                text: "$ " + market.current_price,
+                text: "$ " + displayPrice(market.price),
                 font: { size: 15 },
                 bold: true,
                 lineLimit: 1,
@@ -78,7 +80,8 @@ function listItem(market) {
             {
               type: "text",
               props: {
-                text: "H: " + market.high_24h + ", L: " + market.low_24h,
+                // text: "H: " + market.high + ", No: " + market.rank,
+                text: new Date(market.price_timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
                 font: { size: 10 },
                 color: $color("systemTertiaryLabel"),
                 lineLimit: 1,
@@ -97,11 +100,11 @@ function listItem(market) {
             },
           },
           views: [
-            market.price_change_percentage_24h >= 0 ? colors.upGreen : colors.downRed,
+            market["1d"].price_change_pct >= 0 ? colors.upGreen : colors.downRed,
             {
               type: "text",
               props: {
-                text: (market.price_change_percentage_24h >= 0 ? "+" : "") + market.price_change_percentage_24h.toFixed(2) + "%",
+                text: (market["1d"].price_change_pct >= 0 ? "+" : "") + (market["1d"].price_change_pct * 100).toFixed(2) + "%",
                 bold: true,
                 color: $color("white"),
                 padding: $insets(0, 4, 0, 4),

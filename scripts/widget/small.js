@@ -1,9 +1,11 @@
 const colors = require("../constants/colors");
 const fonts = require("../constants/fonts");
+const { displayPrice, getLocalLogoUrl } = require("../utils");
 
 module.exports = (markets) => {
   if (markets && markets.length > 0) {
     const market = markets[0]
+    const urlSuffix = market.id.toLowerCase() + '-' + market.name.replaceAll(/\s+/g, '-').toLowerCase();
     return {
       type: "zstack",
       props: {
@@ -12,19 +14,20 @@ module.exports = (markets) => {
           maxWidth: Infinity,
           maxHeight: Infinity
         },
-        widgetURL: "https://www.coingecko.com/en/coins/" + market.id,
+        widgetURL: "https://nomics.com/assets/" + urlSuffix,
       },
       views: [{
           type: "image",
           props: {
             resizable: true,
             scaledToFill: true,
-            uri: market.image,
+            uri: /\.(jpg|png)$/.test(market.logo_url) ? market.logo_url : getLocalLogoUrl(market.symbol, market.logo_url),
             position: $point(30, 30),
             frame: {
               width: 180,
               height: 180
             },
+            // cornerRadius: 90,
             opacity: 0.3,
           }
         },
@@ -43,7 +46,7 @@ module.exports = (markets) => {
               props: {
                 text: market.symbol.toUpperCase(),
                 font: { size: 24, weight: "heavy" },
-                color: $color("secondaryText"),
+                color: $color("systemText"),
                 lineLimit: 1,
                 bold: true,
               }
@@ -66,8 +69,8 @@ module.exports = (markets) => {
             {
               type: "text",
               props: {
-                text: (market.price_change_percentage_24h >= 0 ? "+" : "") + market.price_change_percentage_24h.toFixed(2) + "%",
-                color: market.price_change_percentage_24h >= 0 ? colors.upGreen : colors.downRed,
+                text: (market["1d"].price_change_pct >= 0 ? "+" : "") + (market["1d"].price_change_pct * 100).toFixed(2) + "%",
+                color: market["1d"].price_change_pct >= 0 ? colors.upGreen : colors.downRed,
                 bold: true,
                 layoutPriority: 1,
                 font: { size: 16 },
@@ -90,7 +93,7 @@ module.exports = (markets) => {
                 {
                   type: "text",
                   props: {
-                    text: "$ " + market.current_price,
+                    text: "$ " + displayPrice(market.price),
                     font: {
                       size: 28,
                       weight: "bold",
@@ -119,7 +122,7 @@ module.exports = (markets) => {
                 {
                   type: "text",
                   props: {
-                    text: "H: " + market.high_24h + ", L: " + market.low_24h,
+                    text: new Date(market.price_timestamp).toLocaleTimeString('en-US'),
                     font: {
                       size: 10,
                     },

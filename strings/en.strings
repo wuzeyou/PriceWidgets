@@ -1,4 +1,5 @@
 "OK" = "OK";
 "DONE" = "Done";
 "HELLO_WORLD" = "Hello, World!";
-"PLEASE_INPUT" = "Please input correct coin symbol";
+"PLEASE_INPUT" = "Please input correct coin symbol or API KEY";
+"NETWORK_ERROR" = "Please check your internet connection";
