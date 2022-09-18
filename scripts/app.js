@@ -3,6 +3,9 @@ const errorWidget = require("./widget/error");
 const emptyWidget = require("./widget/empty");
 const smallWidget = require("./widget/small");
 const mediumWidget = require("./widget/medium");
+const accessoryRec = require("./widget/accessoryRec");
+const accessoryInline = require("./widget/accessoryInline");
+const accessoryCirc = require("./widget/accessoryCirc");
 const { fetchCoingeckoLogo } = require("./utils");
 
 const now = new Date();
@@ -25,6 +28,12 @@ exports.init = async() => {
           return emptyWidget(ctx);
         }
         switch (ctx.family) {
+          case $widgetFamily.accessoryInline:
+            return accessoryInline(items);
+          case $widgetFamily.accessoryCircular:
+            return accessoryCirc(items);
+          case $widgetFamily.accessoryRectangular:
+            return accessoryRec(items, items.length == 1 ? 1 : 3);
           case $widgetFamily.small:
             return smallWidget(items);
           case $widgetFamily.medium:
