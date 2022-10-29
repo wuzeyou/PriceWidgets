@@ -2,7 +2,7 @@ const { displayPrice } = require("../utils");
 
 function listItem(market) {
   if (market) {
-    const urlSuffix = market.id.toLowerCase() + '-' + market.name.replaceAll(/\s+/g, '-').toLowerCase();
+    // const urlSuffix = market.id.toLowerCase() + '-' + market.name.replaceAll(/\s+/g, '-').toLowerCase();
     return {
       type: "hstack",
       props: {
@@ -12,7 +12,8 @@ function listItem(market) {
           maxWidth: Infinity,
           maxHeight: Infinity
         },
-        link: "https://nomics.com/assets/" + urlSuffix,
+        // link: "https://nomics.com/assets/" + urlSuffix,
+        link: "https://www.coingecko.com/en/coins/" + market.id,
       },
       views: [{
           type: "image",
@@ -21,7 +22,8 @@ function listItem(market) {
               width: 9,
               height: 9
             },
-            symbol: market["1d"].price_change_pct >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
+            symbol: market.price_change_percentage_24h >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
+            // symbol: market["1d"].price_change_pct >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
             resizable: true
           }
         },
@@ -45,7 +47,8 @@ function listItem(market) {
           type: "text",
           props: {
             layoutPriority: 1,
-            text: displayPrice(market.price),
+            text: "" + market.current_price,
+            // text: displayPrice(market.price),
             font: { size: 15 },
             // bold: true,
             lineLimit: 1,
@@ -100,14 +103,16 @@ module.exports = (markets, lines) => {
                       height: 8
                     },
                     padding: $insets(0, 0, 0, 0),
-                    symbol: market["1d"].price_change_pct >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
+                    symbol: market.price_change_percentage_24h >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
+                    // symbol: market["1d"].price_change_pct >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
                     resizable: true
                   }
                 },
                 {
                   type: "text",
                   props: {
-                    text: market.symbol.toUpperCase() + " " + (market["1d"].price_change_pct >= 0 ? "+" : "") + (market["1d"].price_change_pct * 100).toFixed(2) + "%",
+                    text: market.symbol.toUpperCase() + " " + (market.price_change_percentage_24h >= 0 ? "+" : "") + market.price_change_percentage_24h.toFixed(2) + "%",
+                    // text: market.symbol.toUpperCase() + " " + (market["1d"].price_change_pct >= 0 ? "+" : "") + (market["1d"].price_change_pct * 100).toFixed(2) + "%",
                     font: { size: 15 },
                     padding: $insets(0, 0, 0, 0),
                     bold: true,
@@ -119,7 +124,8 @@ module.exports = (markets, lines) => {
             {
               type: "text",
               props: {
-                text: displayPrice(market.price),
+                text: "" + market.current_price,
+                // text: displayPrice(market.price),
                 font: { size: 43 },
                 padding: $insets(0, 0, 0, 0),
                 lineLimit: 1,

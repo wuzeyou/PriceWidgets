@@ -23,7 +23,8 @@ module.exports = (markets) => {
                   width: 9,
                   height: 9
                 },
-                symbol: market["1d"].price_change_pct >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
+                symbol: market.price_change_percentage_24h >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
+                // symbol: market["1d"].price_change_pct >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
                 resizable: true
               }
             },
@@ -40,7 +41,8 @@ module.exports = (markets) => {
             {
               type: "text",
               props: {
-                text: (market["1d"].price_change_pct >= 0 ? "+" : "-") + (market["1d"].price_change_pct * 100).toFixed(2),
+                text: (market.price_change_percentage_24h >= 0 ? "+" : "") + market.price_change_percentage_24h.toFixed(2),
+                // text: (market["1d"].price_change_pct >= 0 ? "+" : "-") + (market["1d"].price_change_pct * 100).toFixed(2),
                 font: { size: 11 },
                 // bold: true,
                 lineLimit: 1,

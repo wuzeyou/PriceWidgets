@@ -14,14 +14,16 @@ module.exports = (markets) => {
               width: 8,
               height: 8
             },
-            symbol: market["1d"].price_change_pct >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
+            symbol: market.price_change_percentage_24h >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
+            // symbol: market["1d"].price_change_pct >= 0 ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill",
             resizable: true
           }
         },
         {
           type: "text",
           props: {
-            text: market.symbol.toUpperCase() + " " + (market["1d"].price_change_pct >= 0 ? "+" : "") + (market["1d"].price_change_pct * 100).toFixed(2) + "%",
+            text: market.symbol.toUpperCase() + " " + (market.price_change_percentage_24h >= 0 ? "+" : "") + market.price_change_percentage_24h.toFixed(2) + "%",
+            // text: market.symbol.toUpperCase() + " " + (market["1d"].price_change_pct >= 0 ? "+" : "") + (market["1d"].price_change_pct * 100).toFixed(2) + "%",
           }
         }
       ]
