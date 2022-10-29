@@ -48,7 +48,7 @@ module.exports = (markets) => {
               props: {
                 text: market.symbol.toUpperCase(),
                 font: { size: 24, weight: "heavy" },
-                color: $color("systemText"),
+                color: $color("primaryText"),
                 lineLimit: 1,
                 bold: true,
               }
