@@ -55,7 +55,22 @@ async function fetchMarkets(input) {
     return readCache();
   }
 
-  const items = resp.data || [];
+  //在此处将接口数据包装为统一数据结构
+  //如要更换API，请相应更新此处代码
+  const items = [];
+  resp.data.forEach(it => {
+    items.push({
+      "id": it.id,
+      "symbol": it.symbol,
+      "name": it.name,
+      "image": it.image,
+      "current_price": "" + it.current_price,
+      "high_24h": it.high_24h,
+      "low_24h": it.low_24h,
+      "price_change_percentage_24h": it.price_change_percentage_24h,
+      "last_updated": it.last_updated
+    })
+  });
 
   if (items) {
     $file.write({

@@ -47,7 +47,7 @@ function listItem(market) {
           type: "text",
           props: {
             layoutPriority: 1,
-            text: "" + market.current_price,
+            text: market.current_price,
             // text: displayPrice(market.price),
             font: { size: 15 },
             // bold: true,
@@ -124,7 +124,7 @@ module.exports = (markets, lines) => {
             {
               type: "text",
               props: {
-                text: "" + market.current_price,
+                text: market.current_price,
                 // text: displayPrice(market.price),
                 font: { size: 43 },
                 padding: $insets(0, 0, 0, 0),
